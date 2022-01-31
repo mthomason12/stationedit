@@ -11,7 +11,7 @@
             <Label Content="Type: " FontWeight="Bold" />
             <Label x:Name="typeText"  Content="{Binding Path=thing.prefabName}" />
         </StackPanel>
-        <StackPanel Orientation="Horizontal">
+        <StackPanel Orientation="Horizontal" Visibility="{Binding Path=thing.CustomNameVisibility}">
             <Label Content="Name: " FontWeight="Bold" />
             <Label x:Name="nameText" Content="{Binding Path=thing.customName}"/>
         </StackPanel>        

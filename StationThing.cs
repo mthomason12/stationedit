@@ -46,6 +46,22 @@ namespace StationEdit
             CalculateOrientation();
         }
 
+        public Visibility CustomNameVisibility
+        {
+            get
+            {
+                if ((this.customName != null) && (this.customName != ""))
+                {
+                    return Visibility.Visible;
+                }
+                else
+                {
+                    return Visibility.Collapsed;
+                }
+            }
+
+        }
+
         public string Description 
         { get 
             {
