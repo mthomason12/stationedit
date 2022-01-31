@@ -15,6 +15,6 @@
             <Label Content="Name: " FontWeight="Bold" />
             <Label x:Name="nameText" Content="{Binding Path=thing.customName}"/>
         </StackPanel>        
-        <TextBlock x:Name="descriptionText" Text="{Binding Path=thing.description}"/>
+        <TextBlock x:Name="descriptionText" Text="{Binding Path=thing.Description}"/>
     </StackPanel>
 </UserControl>

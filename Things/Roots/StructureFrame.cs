@@ -19,7 +19,7 @@ namespace StationEdit.Things.Roots
             width = 40;
         }
 
-        protected override FrameworkElement getUIElement()
+        protected override FrameworkElement GetUIElement()
         {
             System.Windows.Shapes.Path frame;
             frame = new System.Windows.Shapes.Path();

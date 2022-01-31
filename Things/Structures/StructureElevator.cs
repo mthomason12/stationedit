@@ -24,7 +24,7 @@ namespace StationEdit.Things.Structures
             width = 40;
         }
 
-        protected override FrameworkElement getUIElement()
+        protected override FrameworkElement GetUIElement()
         {
             Canvas myCanvas;
             myCanvas = new Canvas();

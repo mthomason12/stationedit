@@ -48,8 +48,8 @@ namespace StationEdit
                 file = XDocument.Load(openFileDialog.FileName);
                 DoDebug("Loaded");
                 xmlItems.DataContext = file;
-                canvas.setMainWindow(this);
-                canvas.setFile(file);
+                canvas.SetMainWindow(this);
+                canvas.SetFile(file);
                 DoDebug("Structures: " + canvas.structures.Count());
                 DoDebug("Min X:" + canvas.minx);
                 DoDebug("Min Y:" + canvas.miny);
@@ -74,6 +74,7 @@ namespace StationEdit
         private void xmlItems_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             XElement node = xmlItems.SelectedItem as XElement;
+            canvas.SelectItem(node);
             /*if (node is XText)
             {
                 DoDebug(node.Name.ToString());

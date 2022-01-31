@@ -59,31 +59,60 @@ namespace StationEdit
         IEnumerable<XElement> xmlThings;
         public List<StationThing> things = new List<StationThing>();
         public List<StationStructure> structures = new List<StationStructure>();
+        Dictionary<XElement, StationThing> elementLookup = new Dictionary<XElement, StationThing>();
         public List<String> unhandled = new List<String>();
         public double minx, miny, minz, maxx, maxy, maxz;
+
+        StationThing selectedItem;
 
         static StationCanvas()
         {
             //DefaultStyleKeyProperty.OverrideMetadata(typeof(StationCanvas), new FrameworkPropertyMetadata(typeof(StationCanvas)));
         }
 
-        public void setMainWindow(MainWindow mw)
+        public void SetMainWindow(MainWindow mw)
         {
             this.mw = mw;
         }
 
-        public void setFile(XDocument aFile)
+        public void SetFile(XDocument aFile)
         {
             file = aFile;
-            reload();
+            Reload();
         }
 
-        void reload()
+        public void SelectItem(XElement ele)
+        {
+            if (elementLookup.ContainsKey(ele))
+            {
+                SelectItem(elementLookup[ele]);
+            }
+            else
+            {
+                SelectItem((StationThing)null);
+            }
+        }
+
+        public void SelectItem(StationThing thing)
+        {
+            if (selectedItem != null)
+            {
+                selectedItem.Select(false);
+            }
+            selectedItem = thing;
+            if (selectedItem != null)
+            {
+                selectedItem.Select(true);
+            }
+        }
+
+        void Reload()
         {
             Children.Clear();
             subCanvas.Clear();
             structures.Clear();
             things.Clear();
+            elementLookup.Clear();
             //get all Things
             xmlThings = file.XPathSelectElements("/WorldData/Things/ThingSaveData");
 
@@ -110,6 +139,7 @@ namespace StationEdit
                         }
                         things.Add(newStructure);
                         structures.Add(newStructure);
+                        elementLookup.Add(thing, newStructure);
                     }
                     else
                     {
@@ -169,7 +199,7 @@ namespace StationEdit
                 //cache for speed
                 newCanvas.CacheMode = new BitmapCache {
                     EnableClearType = false,
-                    RenderAtScale = 2,
+                    RenderAtScale = 4,
                     SnapsToDevicePixels = false
                 };
                 Children.Add(newCanvas);

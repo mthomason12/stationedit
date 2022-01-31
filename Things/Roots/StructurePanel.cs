@@ -18,7 +18,7 @@ namespace StationEdit.Things.Roots
             fill = System.Windows.Media.Brushes.White;
         }
 
-        protected override FrameworkElement getUIElement()
+        protected override FrameworkElement GetUIElement()
         {
             System.Windows.Shapes.Rectangle myShape;
             myShape = new System.Windows.Shapes.Rectangle();

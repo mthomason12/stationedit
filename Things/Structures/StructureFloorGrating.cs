@@ -19,7 +19,7 @@ namespace StationEdit.Things.Structures
             fill = System.Windows.Media.Brushes.DarkGray;
         }
 
-        protected override FrameworkElement getUIElement()
+        protected override FrameworkElement GetUIElement()
         {
             //make a nice grating brush
             VisualBrush myBrush = new VisualBrush();
@@ -38,7 +38,7 @@ namespace StationEdit.Things.Structures
             myBrush.ViewboxUnits = BrushMappingMode.Absolute;
             fill = myBrush;
 
-            return base.getUIElement();
+            return base.GetUIElement();
         }
 
 

@@ -17,7 +17,7 @@ namespace StationEdit.Things.Roots
             width = 38;
         }
 
-        protected override FrameworkElement getUIElement()
+        protected override FrameworkElement GetUIElement()
         {
             System.Windows.Shapes.Ellipse myShape;
             myShape = new System.Windows.Shapes.Ellipse();

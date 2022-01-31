@@ -92,7 +92,7 @@
                       />
             </Grid>
         </Expander>
-        <Expander DockPanel.Dock="Right" ExpandDirection="Left" IsExpanded="True" Header="Debug">
+        <Expander DockPanel.Dock="Right" ExpandDirection="Left" IsExpanded="False" Header="Debug">
             <RichTextBox x:Name="DebugBox" Width="200"/>
         </Expander>
         <ScrollViewer x:Name="scrollViewer" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" MouseWheel="ScrollViewer_MouseWheel" PreviewMouseWheel="scrollViewer_PreviewMouseWheel" ScrollChanged="scrollViewer_ScrollChanged" MouseMove="scrollViewer_MouseMove">

@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media.Effects;
 using System.Xml.Linq;
 using System.Xml.XPath;
 
@@ -21,6 +23,9 @@ namespace StationEdit
         public int width = 10;
         public int height = 10;
         public string customColor = null;
+        UIElement uiElement;
+        bool selected;
+        StationCanvas canvas;
 
         protected System.Windows.Media.Brush fill = System.Windows.Media.Brushes.Red;
 
@@ -37,11 +42,11 @@ namespace StationEdit
             customColor = thing.XPathSelectElement("./CustomColorIndex").Value;
             customName = thing.XPathSelectElement("./CustomName").Value;
             //rotw = double.Parse(thing.XPathSelectElement("./WorldRotation/w").Value);
-
-            calculateOrientation();
+            selected = false;
+            CalculateOrientation();
         }
 
-        public string description 
+        public string Description 
         { get 
             {
                 string text;
@@ -55,17 +60,30 @@ namespace StationEdit
             } 
         }
 
+        public void Select(bool selected)
+        {
+            this.selected = selected;
+            if (selected)
+            {
+                uiElement.Effect = new BlurEffect();
+            }
+            else
+            {
+                uiElement.Effect = null;
+            }
 
-        protected virtual void calculateOrientation()
+        }
+
+        protected virtual void CalculateOrientation()
         {
             //calculate orientation
             //this is going to be messy because Stationeers doesn't use nice neat rounded angles like "90" and "180" <sigh>
             //default to "unknown"
             orientation = Orientation.unknown;
 
-            rotx = roundRotation(rotx);
-            roty = roundRotation(roty);
-            rotz = roundRotation(rotz);
+            rotx = RoundRotation(rotx);
+            roty = RoundRotation(roty);
+            rotz = RoundRotation(rotz);
 
             if (rotx == 0 || rotx == 180 || 
                 (( rotx == 90 || rotx == 270 ) && (roty == 90 || roty == 270)) )
@@ -99,7 +117,7 @@ namespace StationEdit
 
 
 
-        private int roundRotation(double rotation)
+        private int RoundRotation(double rotation)
         {
             int workingrot = (int)Math.Round(rotation / 90) * 90;
             if (workingrot == 360)
@@ -109,7 +127,7 @@ namespace StationEdit
             return workingrot;
         }
 
-        protected void setCustomColor(string color)
+        protected void SetCustomColor(string color)
         {
             //handle custom colors
             switch (color)
@@ -153,7 +171,7 @@ namespace StationEdit
             }
         }
 
-        protected virtual FrameworkElement getUIElement()
+        protected virtual FrameworkElement GetUIElement()
         {
             //default return a red dot
             System.Windows.Shapes.Ellipse myShape;
@@ -175,12 +193,20 @@ namespace StationEdit
 
         public virtual void DrawOnCanvas(StationCanvas canvas, Canvas subcanvas)
         {
-            setCustomColor(customColor);
-            FrameworkElement ele = getUIElement();
+            this.canvas = canvas;
+            SetCustomColor(customColor);
+            FrameworkElement ele = GetUIElement();
+            uiElement = ele;
+            ele.MouseDown += new MouseButtonEventHandler(MouseDown);
             var tt = new ThingTooltip(this);
             ele.ToolTip = tt;
             subcanvas.Children.Add(ele);
             canvas.SetShapePos(ele, posx, posy, width, height);
+        }
+
+        void MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            canvas.SelectItem(this);
         }
 
         public int CompareTo(StationThing obj)
