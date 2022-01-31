@@ -16,8 +16,8 @@ namespace StationEdit.Things.Structures
         public StructureTankBig(string prefabName, XElement thing) : base(prefabName, thing)
         {
             fill = System.Windows.Media.Brushes.Orange;
-            width = 76;
-            height = 76;
+            width = 60;
+            height = 60;
         }
     }
 }

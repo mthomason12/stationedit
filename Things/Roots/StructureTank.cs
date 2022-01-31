@@ -13,8 +13,8 @@ namespace StationEdit.Things.Roots
         public StructureTank(string prefabName, XElement thing) : base(prefabName, thing)
         {
             fill = System.Windows.Media.Brushes.Gray;
-            height = 38;
-            width = 38;
+            height = 30;
+            width = 30;
         }
 
         protected override FrameworkElement GetUIElement()
