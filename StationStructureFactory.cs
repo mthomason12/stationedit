@@ -107,6 +107,7 @@ namespace StationEdit
                     break;
 
                 case "StructureTankBig":
+                case "StructureLiquidTankBigInsulated"
                     retval = new StructureTankBig(prefabName, thing);
                     break;
 
