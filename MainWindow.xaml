@@ -6,7 +6,7 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:StationEdit"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Stationeers Map Viewer" d:DesignWidth="800" d:DesignHeight="500">
     <Window.CommandBindings>
         <CommandBinding Command="Open" CanExecute="CommonCommandBinding_CanExecute" Executed="OpenCmdExecuted"/>
         <CommandBinding Command="Save" CanExecute="CommonCommandBinding_CanExecute" />
@@ -57,6 +57,22 @@
             <ToolBar>
                 <Label>Max Level:</Label>
                 <xctk:IntegerUpDown Name="maxLevel" ValueChanged="maxLevel_ValueChanged"/>
+                <Label>Zoom:</Label>
+                <ComboBox x:Name="zoomBox" Width="50" HorizontalContentAlignment="Right" SelectionChanged="ComboBox_SelectionChanged">
+                    <ComboBoxItem Content="500%"/>
+                    <ComboBoxItem Content="400%"/>
+                    <ComboBoxItem Content="300%"/>
+                    <ComboBoxItem Content="200%"/>
+                    <ComboBoxItem Content="175%"/>
+                    <ComboBoxItem Content="150%"/>
+                    <ComboBoxItem Content="125%"/>
+                    <ComboBoxItem Content="100%" IsSelected="True"/>
+                    <ComboBoxItem Content="75%"/>
+                    <ComboBoxItem Content="50%"/>
+                    <ComboBoxItem Content="25%"/>
+                    <ComboBoxItem Content="10%"/>
+                    <ComboBoxItem Content="5%"/>                    
+                </ComboBox>
             </ToolBar>
         </ToolBarTray>
         <Expander DockPanel.Dock="Left" ExpandDirection="Right" IsExpanded="True" Header="Tree" >

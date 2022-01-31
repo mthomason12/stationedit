@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Xml.Linq;
 using System.Xml.XPath;
 
@@ -172,13 +173,13 @@ namespace StationEdit
         }
 
 
-        public virtual void DrawOnCanvas(StationCanvas canvas)
+        public virtual void DrawOnCanvas(StationCanvas canvas, Canvas subcanvas)
         {
             setCustomColor(customColor);
             FrameworkElement ele = getUIElement();
             var tt = new ThingTooltip(this);
             ele.ToolTip = tt;
-            canvas.Children.Add(ele);
+            subcanvas.Children.Add(ele);
             canvas.SetShapePos(ele, posx, posy, width, height);
         }
 

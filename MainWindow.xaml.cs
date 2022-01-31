@@ -60,6 +60,8 @@ namespace StationEdit
                 DoDebug("Canvas Width:" + canvas.Width);
                 DoDebug("Canvas Height:" + canvas.Height);
                 maxLevel.Value = (int)canvas.maxz;
+                maxLevel.Minimum = (int)canvas.minz;
+                maxLevel.Maximum = (int)canvas.maxz;
             }
         }
 
@@ -95,27 +97,21 @@ namespace StationEdit
 
         private void scrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            lastMousePositionOnTarget = Mouse.GetPosition(canvas);
-
-            canvas.LayoutTransform = st;
-            //MouseWheel += (sender, e) =>
-            //{
             if (e.Delta > 0)
             {
-                st.ScaleX *= 1.25;
-                st.ScaleY *= 1.25;
+                if (zoomBox.SelectedIndex > 0)
+                {
+                    zoomBox.SelectedIndex -= 1;
+                }
             }
             else
             {
-                st.ScaleX /= 1.25;
-                st.ScaleY /= 1.25;
+                if (zoomBox.SelectedIndex < zoomBox.Items.Count - 1)
+                {
+                    zoomBox.SelectedIndex += 1;
+                }
             }
-            var centerOfViewport = new Point(scrollViewer.ViewportWidth / 2,
-                                                     scrollViewer.ViewportHeight / 2);
-            lastCenterPositionOnTarget = scrollViewer.TranslatePoint(centerOfViewport, canvas);
-            //scrollViewer.UpdateLayout();
             e.Handled = true;
-            //};
         }
 
         private void scrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
@@ -183,6 +179,28 @@ namespace StationEdit
 
                 scrollViewer.ScrollToHorizontalOffset(scrollViewer.HorizontalOffset - dX);
                 scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset - dY);
+            }
+        }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (canvas != null) //will be null during init so don't do anything
+            {
+                lastMousePositionOnTarget = Mouse.GetPosition(canvas);
+
+                canvas.LayoutTransform = st;
+
+                //get zoom from zoomBox
+                string zoomString = (string)((ComboBoxItem)zoomBox.SelectedItem).Content;
+                //remove the percentage sign
+                zoomString = zoomString.Remove(zoomString.Length - 1, 1);
+                double zoomVal = double.Parse(zoomString) / 100;
+                st.ScaleX = zoomVal;
+                st.ScaleY = zoomVal;
+
+                var centerOfViewport = new Point(scrollViewer.ViewportWidth / 2,
+                                                         scrollViewer.ViewportHeight / 2);
+                lastCenterPositionOnTarget = scrollViewer.TranslatePoint(centerOfViewport, canvas);
             }
         }
     }

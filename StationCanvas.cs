@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using System.Xml.Linq;
 using System.Xml.XPath;
 using System.Diagnostics;
+using System.Windows.Media.Effects;
 
 namespace StationEdit
 {
@@ -50,7 +51,8 @@ namespace StationEdit
     public class StationCanvas : Canvas
     {
         XDocument file;
-        MainWindow mw; 
+        MainWindow mw;
+        Dictionary<int, Canvas> subCanvas = new Dictionary<int, Canvas>();
 
         System.Windows.Shapes.Rectangle baseRect;
 
@@ -79,7 +81,9 @@ namespace StationEdit
         void reload()
         {
             Children.Clear();
+            subCanvas.Clear();
             structures.Clear();
+            things.Clear();
             //get all Things
             xmlThings = file.XPathSelectElements("/WorldData/Things/ThingSaveData");
 
@@ -150,10 +154,33 @@ namespace StationEdit
             things.Sort((a, b) => a.CompareTo(b));
             structures.Sort((a, b) => a.CompareTo(b));
 
+            //create a canvas for each level
+            for (int canv = (int)Math.Truncate(minz); canv < (int)Math.Truncate(maxz + 1) ; canv++)
+            {
+                Canvas newCanvas = new Canvas();
+                //drop shadow for depth
+                newCanvas.Effect = new DropShadowEffect
+                {
+                    Color = new Color { A = 255, R = 0, G = 0, B = 0 },
+                    Direction = 315,
+                    ShadowDepth = 8,
+                    Opacity = 0.5
+                };
+                //cache for speed
+                newCanvas.CacheMode = new BitmapCache {
+                    EnableClearType = false,
+                    RenderAtScale = 2,
+                    SnapsToDevicePixels = false
+                };
+                Children.Add(newCanvas);
+                SetLeft(newCanvas, 0);
+                SetTop(newCanvas, 0);
+                subCanvas.Add(canv, newCanvas);
+            }
 
             foreach (StationStructure thing in structures)
             {
-                thing.DrawOnCanvas(this);
+                thing.DrawOnCanvas(this, subCanvas[(int)Math.Truncate(thing.posz)]);
             }
 
         }
@@ -183,20 +210,16 @@ namespace StationEdit
 
         public void SetMaxLevel(int maxlevel)
         {
-            // show/hide items as appropriate
-            foreach (FrameworkElement shape in Children)
+            // show/hide levels as appropriate
+            foreach (KeyValuePair<int,Canvas> subc in subCanvas)
             {
-                if (shape.Tag != null)
+                if (subc.Key > maxlevel)
                 {
-                    StationThing thing = (StationThing)shape.Tag;
-                    if (thing.posz > maxlevel)
-                    {
-                        shape.Visibility = Visibility.Hidden;
-                    }
-                    else
-                    {
-                        shape.Visibility = Visibility.Visible;
-                    }
+                    ((Canvas)subc.Value).Visibility = Visibility.Hidden;
+                }
+                else
+                {
+                    ((Canvas)subc.Value).Visibility = Visibility.Visible;
                 }
             }
         }
