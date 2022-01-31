@@ -16,6 +16,7 @@ namespace StationEdit.Things.Structures
         public StructureLadder(string prefabName, XElement thing) : base(prefabName, thing)
         {
             fill = System.Windows.Media.Brushes.Orange;
+            autoRotate = false;
         }
 
         protected override FrameworkElement GetUIElement()

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Effects;
 using System.Xml.Linq;
 using System.Xml.XPath;
@@ -25,6 +26,7 @@ namespace StationEdit
         public string customColor = null;
         UIElement uiElement;
         bool selected;
+        protected bool autoRotate = true;
         StationCanvas canvas;
 
         protected System.Windows.Media.Brush fill = System.Windows.Media.Brushes.Red;
@@ -131,8 +133,6 @@ namespace StationEdit
             }
         }
 
-
-
         private int RoundRotation(double rotation)
         {
             int workingrot = (int)Math.Round(rotation / 90) * 90;
@@ -217,7 +217,17 @@ namespace StationEdit
             var tt = new ThingTooltip(this);
             ele.ToolTip = tt;
             subcanvas.Children.Add(ele);
+            if (autoRotate)
+            {
+                HandleAutoRotate(ele);
+            }
             canvas.SetShapePos(ele, posx, posy, width, height);
+        }
+
+        protected virtual void HandleAutoRotate(FrameworkElement ele)
+        {
+            RotateTransform rt = new RotateTransform(rotz);
+            ele.RenderTransform = rt;
         }
 
         void MouseDown(object sender, MouseButtonEventArgs e)

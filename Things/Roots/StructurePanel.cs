@@ -16,6 +16,7 @@ namespace StationEdit.Things.Roots
         public StructurePanel(string prefabName, XElement thing) : base(prefabName, thing)
         {
             fill = System.Windows.Media.Brushes.White;
+            autoRotate = false;
         }
 
         protected override FrameworkElement GetUIElement()

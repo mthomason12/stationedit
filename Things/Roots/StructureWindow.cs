@@ -21,6 +21,7 @@ namespace StationEdit.Things.Roots
             fill = System.Windows.Media.Brushes.Gray;
             height = 40;
             width = 40;
+            autoRotate = false;
         }
 
         protected override FrameworkElement GetUIElement()
